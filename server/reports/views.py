@@ -50,7 +50,7 @@ class DashboardAPIView(APIView):
                 ).count(),
 
             "active_bookings":
-                Booking.objects.filter(
+                ResourceBooking.objects.filter(
                     status="ONGOING"
                 ).count(),
 
@@ -212,7 +212,7 @@ class BookingHeatmapAPIView(APIView):
 
     def get(self, request):
 
-        bookings = Booking.objects.annotate(
+        bookings = ResourceBooking.objects.annotate(
 
             hour=ExtractHour("start_time")
 
