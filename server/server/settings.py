@@ -32,13 +32,6 @@ INSTALLED_APPS = [
     'account',
     'orgstructure',
     'asset_manager',
-    'allocationandtransfer',
-    'booking',
-    'maintenance',
-    'asset_audit',
-    'reports',
-    'notifications',
-
 ]
 
 MIDDLEWARE = [

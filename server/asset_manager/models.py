@@ -33,9 +33,7 @@ class Asset(models.Model):
 
     category = models.ForeignKey(
         "orgstructure.AssetCategory",   # change if different
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
+        on_delete=models.PROTECT
     )
 
     serial_number = models.CharField(

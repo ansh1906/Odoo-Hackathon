@@ -21,9 +21,6 @@ class MaintenanceHistorySerializer(serializers.ModelSerializer):
 
 class AssetSerializer(serializers.ModelSerializer):
 
-    category_name = serializers.CharField(source="category.name", read_only=True, allow_null=True)
-    department_name = serializers.CharField(source="department.name", read_only=True)
-
     allocation_history = AllocationHistorySerializer(
         many=True,
         read_only=True
@@ -42,6 +39,4 @@ class AssetSerializer(serializers.ModelSerializer):
         read_only_fields = (
             "asset_tag",
             "qr_code",
-            "category_name",
-            "department_name",
         )

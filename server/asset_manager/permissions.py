@@ -7,5 +7,5 @@ class IsAssetManager(BasePermission):
 
         return (
             request.user.is_authenticated
-            and request.user.role.lower() == "employee"
+            and request.user.role.lower() == "asset_manager"
         )
