@@ -6,6 +6,9 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Dashboard from "./pages/features/Dashboard";
 import ComingSoon from "./components/ComingSoon";
+import OrganizationSetup from "./pages/features/OrganizationSetup";
+import Assets from "./pages/features/Assets";
+
 
 export default function App() {
   return (
@@ -23,8 +26,8 @@ export default function App() {
             }
           >
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/organization-setup" element={<ComingSoon title="Organization Setup" />} />
-            <Route path="/assets" element={<ComingSoon title="Assets" />} />
+            <Route path="/organization-setup" element={<OrganizationSetup />} />
+            <Route path="/assets" element={<Assets />} />
             <Route path="/allocation-transfer" element={<ComingSoon title="Allocation & Transfer" />} />
             <Route path="/resource-booking" element={<ComingSoon title="Resource Booking" />} />
             <Route path="/maintenance" element={<ComingSoon title="Maintenance" />} />
