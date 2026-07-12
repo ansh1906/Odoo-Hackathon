@@ -1,0 +1,57 @@
+API Endpoints
+
+Method	Endpoint	Purpose
+POST	/maintenance/	Raise request
+GET	/maintenance/	List requests
+GET	/maintenance/{id}/	Detail
+POST	/maintenance/{id}/approve/	Approve request
+POST	/maintenance/{id}/reject/	Reject request
+POST	/maintenance/{id}/assign/	Assign technician
+POST	/maintenance/{id}/start/	Start work
+POST	/maintenance/{id}/resolve/	Resolve request
+
+⸻
+
+Expected JSON
+
+Raise Request
+
+{
+    "asset": 12,
+    "description": "Screen flickering while charging.",
+    "priority": "High"
+}
+
+⸻
+
+Assign Technician
+
+{
+    "technician": 7
+}
+
+⸻
+
+Reject
+
+{
+    "manager_notes": "Warranty expired. Replace instead."
+}
+
+⸻
+
+Status Flow
+
+Pending
+   │
+   ├─────────────► Rejected
+   │
+Approved
+   │
+Technician Assigned
+   │
+In Progress
+   │
+Resolved
+
+On Approved, automatically update the linked asset to Under Maintenance. On Resolved, set the asset back to Available. This keeps the maintenance workflow synchronized with the asset lifecycle while preserving the complete maintenance history for each asset.

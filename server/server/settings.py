@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'asset_manager',
     'allocationandtransfer',
     'booking',
+    'maintenance',
 ]
 
 MIDDLEWARE = [
