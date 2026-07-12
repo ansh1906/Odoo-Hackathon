@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ChevronRight,
   ChevronDown,
@@ -10,67 +10,21 @@ import {
   Loader2,
 } from "lucide-react";
 import { allocateAsset, returnAsset, requestTransfer } from "../../api/allocations";
+import { getAssets } from "../../api/assets";
 import StatusBadge from "../../components/StatusBadge";
 
-// TODO: replace with real data from api/assets.js and api/users.js once
-// those endpoints are live. Kept local so this page works standalone.
-const INITIAL_ASSETS = [
-  {
-    id: 1,
-    tag: "AF-0114",
-    name: "Dell Laptop",
-    status: "Allocated",
-    holder: "Priya Shah",
-    department: "Engineering",
-    expectedReturn: "2026-08-01",
-  },
-  {
-    id: 2,
-    tag: "AF-0130",
-    name: "Herman Miller Aeron Chair",
-    status: "Available",
-    holder: null,
-    department: null,
-    expectedReturn: null,
-  },
-  {
-    id: 3,
-    tag: "AF-0201",
-    name: "Conference Room Projector",
-    status: "Allocated",
-    holder: "Raj Mehta",
-    department: "Operations",
-    expectedReturn: "2026-07-20",
-  },
-  {
-    id: 4,
-    tag: "AF-0305",
-    name: "Toyota Innova (Fleet Vehicle)",
-    status: "Available",
-    holder: null,
-    department: null,
-    expectedReturn: null,
-  },
-];
-
 const EMPLOYEES = ["Rohan Mehta", "Sana Iqbal", "Arjun Nair", "Neha Kulkarni"];
-
-const INITIAL_HISTORY = {
-  1: [
-    { id: "h1", date: "Mar 12", detail: "Allocated to Priya Shah — Engineering" },
-    { id: "h2", date: "Jan 04", detail: "Returned by Arjun Nair — condition: good" },
-  ],
-  3: [{ id: "h3", date: "Feb 20", detail: "Allocated to Raj Mehta — Operations" }],
-};
 
 function today() {
   return new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit" });
 }
 
 export default function AllocationTransfer() {
-  const [assets, setAssets] = useState(INITIAL_ASSETS);
-  const [historyMap, setHistoryMap] = useState(INITIAL_HISTORY);
-  const [selectedId, setSelectedId] = useState(INITIAL_ASSETS[0].id);
+  const [assets, setAssets] = useState([]);
+  const [historyMap, setHistoryMap] = useState({});
+  const [selectedId, setSelectedId] = useState(null);
+  const [isLoadingAssets, setIsLoadingAssets] = useState(true);
+  const [assetsError, setAssetsError] = useState("");
 
   const [toEmployee, setToEmployee] = useState("");
   const [reason, setReason] = useState("");
@@ -81,6 +35,61 @@ export default function AllocationTransfer() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadAssets = async () => {
+      try {
+        const { data } = await getAssets();
+        const apiAssets = Array.isArray(data) ? data : data.results ?? [];
+        const normalizedAssets = apiAssets.map((apiAsset) => {
+          const activeAllocation = [...(apiAsset.allocation_history ?? [])]
+            .reverse()
+            .find((entry) => !entry.returned_at);
+
+          return {
+            ...apiAsset,
+            tag: apiAsset.asset_tag,
+            holder: activeAllocation?.allocated_to ?? null,
+            department: apiAsset.department_name ?? null,
+            expectedReturn: null,
+          };
+        });
+
+        const loadedHistory = Object.fromEntries(
+          normalizedAssets.map((apiAsset) => [
+            apiAsset.id,
+            (apiAsset.allocation_history ?? []).map((entry) => ({
+              id: entry.id,
+              date: new Date(entry.allocated_at).toLocaleDateString("en-US", {
+                month: "short",
+                day: "2-digit",
+              }),
+              detail: `${entry.returned_at ? "Returned by" : "Allocated to"} ${entry.allocated_to ?? "Unknown user"}`,
+            })),
+          ])
+        );
+
+        if (isMounted) {
+          setAssets(normalizedAssets);
+          setHistoryMap(loadedHistory);
+          setSelectedId(normalizedAssets[0]?.id ?? null);
+        }
+      } catch (requestError) {
+        if (isMounted) {
+          setAssetsError(requestError.response?.data?.detail ?? "Unable to load registered assets.");
+        }
+      } finally {
+        if (isMounted) setIsLoadingAssets(false);
+      }
+    };
+
+    loadAssets();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const asset = useMemo(() => assets.find((a) => a.id === selectedId), [assets, selectedId]);
   const history = historyMap[selectedId] || [];
@@ -183,6 +192,22 @@ export default function AllocationTransfer() {
         </p>
       </div>
 
+      {isLoadingAssets && (
+        <p className="rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 text-slate-600">
+          Loading registered assets…
+        </p>
+      )}
+      {!isLoadingAssets && assetsError && (
+        <p className="rounded-xl border border-rose-200 bg-rose-50 px-5 py-4 text-rose-700">
+          {assetsError}
+        </p>
+      )}
+      {!isLoadingAssets && !assetsError && !asset && (
+        <p className="rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 text-slate-600">
+          No registered assets are available yet. Add one from the Assets page first.
+        </p>
+      )}
+      {asset && (
       <div className="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(0,1fr)_360px]">
         {/* Main column */}
         <div className="min-w-0 max-w-3xl">
@@ -478,6 +503,7 @@ export default function AllocationTransfer() {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 }

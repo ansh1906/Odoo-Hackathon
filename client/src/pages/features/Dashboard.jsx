@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Boxes,
@@ -17,6 +17,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import { getAssets } from "../../api/assets";
 
 // ── Theme tokens ─────────────────────────────────────────────────────────
 // Deliberately not Tailwind's dark: variant — a self-contained CSS-variable
@@ -57,15 +58,6 @@ const THEME = {
   },
 };
 
-const KPI_DATA = [
-  { key: "available", label: "Assets Available", value: 128, icon: Boxes, tone: "success" },
-  { key: "allocated", label: "Assets Allocated", value: 342, icon: UserCheck, tone: "accent" },
-  { key: "maintenance", label: "Maintenance Today", value: 6, icon: Wrench, tone: "warn" },
-  { key: "bookings", label: "Active Bookings", value: 14, icon: CalendarClock, tone: "accent" },
-  { key: "transfers", label: "Pending Transfers", value: 3, icon: ArrowLeftRight, tone: "warn" },
-  { key: "returns", label: "Upcoming Returns", value: 9, icon: Undo2, tone: "accent" },
-];
-
 const OVERDUE_ITEMS = [
   { id: 1, type: "Return", detail: "AF-0114 — MacBook Pro · Priya Sharma", meta: "3 days overdue" },
   { id: 2, type: "Booking", detail: "Conference Room B2 — not released", meta: "1 day overdue" },
@@ -93,6 +85,9 @@ export default function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState("light");
+  const [assets, setAssets] = useState([]);
+  const [isLoadingAssets, setIsLoadingAssets] = useState(true);
+  const [assetsError, setAssetsError] = useState("");
   const t = THEME[mode];
 
   const hour = new Date().getHours();
@@ -103,6 +98,49 @@ export default function Dashboard() {
       Object.fromEntries(Object.entries(t).map(([k, v]) => [`--${k}`, v])),
     [t]
   );
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadAssets = async () => {
+      try {
+        const { data } = await getAssets();
+        if (isMounted) {
+          setAssets(Array.isArray(data) ? data : data.results ?? []);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setAssetsError(error.response?.data?.detail ?? "Unable to load asset counts.");
+        }
+      } finally {
+        if (isMounted) setIsLoadingAssets(false);
+      }
+    };
+
+    loadAssets();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const kpiData = useMemo(() => {
+    const countByStatus = (status) => assets.filter((asset) => asset.status === status).length;
+
+    return [
+      { key: "total", label: "Total Assets", value: assets.length, icon: Boxes, tone: "accent" },
+      { key: "available", label: "Assets Available", value: countByStatus("Available"), icon: UserCheck, tone: "success" },
+      { key: "allocated", label: "Assets Allocated", value: countByStatus("Allocated"), icon: ArrowLeftRight, tone: "accent" },
+      { key: "maintenance", label: "Under Maintenance", value: countByStatus("Under Maintenance"), icon: Wrench, tone: "warn" },
+      { key: "reserved", label: "Assets Reserved", value: countByStatus("Reserved"), icon: CalendarClock, tone: "accent" },
+      {
+        key: "retired",
+        label: "Retired / Disposed",
+        value: countByStatus("Retired") + countByStatus("Disposed"),
+        icon: Undo2,
+        tone: "warn",
+      },
+    ];
+  }, [assets]);
 
   return (
     <div
@@ -166,7 +204,7 @@ export default function Dashboard() {
 
         {/* KPI tags */}
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {KPI_DATA.map(({ key, label, value, icon: Icon, tone }) => (
+          {kpiData.map(({ key, label, value, icon: Icon, tone }) => (
             <div
               key={key}
               className="relative border bg-[var(--surface)] p-4 pt-5"
@@ -191,12 +229,18 @@ export default function Dashboard() {
                 </span>
               </div>
               <p className="mt-3 font-mono text-2xl font-semibold tabular-nums text-[var(--text)]">
-                {value}
+                {isLoadingAssets ? "—" : value}
               </p>
               <p className="mt-1 text-[11px] leading-tight text-[var(--subtext)]">{label}</p>
             </div>
           ))}
         </div>
+
+        {assetsError && (
+          <p className="-mt-5 mb-6 text-sm" style={{ color: "var(--danger)" }}>
+            {assetsError}
+          </p>
+        )}
 
         {/* Overdue / Upcoming split */}
         <div className="mb-8 grid grid-cols-1 gap-5 lg:grid-cols-2">
