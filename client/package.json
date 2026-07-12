@@ -11,15 +11,12 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.2",
-<<<<<<< HEAD
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "tailwind": "^4.0.0",
-=======
+    "axios": "^1.18.1",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^1.24.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
->>>>>>> e44f56b (login page)
+    "react-router-dom": "^7.18.1",
     "tailwindcss": "^4.3.2"
   },
   "devDependencies": {

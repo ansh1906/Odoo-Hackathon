@@ -18,13 +18,16 @@ export default function Sidebar() {
   return (
     <div className={`h-screen bg-blue-300 dark:bg-zinc-900 text:black dark:text-white transition-all duration-300 
         ${
-        open ? "w-[20%]" : "w-[5%]"
+        open ? "w-[20%]" : "w-[6%]"
         }`}
     >
       {/* Header */}
-      <div className="p-4">
-        <button onClick={() => setOpen(!open)} className="border border-gray-500 rounded px-3 py-2 hover:bg-blue-500 dark:hover:bg-zinc-800">
-          {open ? "Hide" : "View"}
+      <div className="p-2 flex justify-center">
+        <button
+          onClick={() => setOpen(!open)}
+          className="w-full max-w-full border border-gray-500 rounded px-2 py-2 text-sm hover:bg-blue-500 dark:hover:bg-zinc-800 transition-all"
+        >
+          {open ? "Hide" : "Sidebar"}
         </button>
       </div>
 

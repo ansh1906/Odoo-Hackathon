@@ -1,17 +1,19 @@
-<<<<<<< HEAD
 import React from 'react'
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
-function App() {
-  return (
-    <div></div>
-  )
-=======
 import Login from "./pages/Auth/Login";
+import Dashboard from './pages/features/Dashboard';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
-  return <Login />;
->>>>>>> e44f56b (login page)
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard/>}/>
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App;

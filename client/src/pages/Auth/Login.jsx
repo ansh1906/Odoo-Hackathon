@@ -11,48 +11,6 @@ import {
   Loader2,
 } from "lucide-react";
 
-const STATS = [
-  {
-    label: "Assets Available",
-    value: "1,284",
-    icon: Boxes,
-    position: "top-10 left-6 sm:left-10",
-    delay: "0s",
-  },
-  {
-    label: "Active Bookings",
-    value: "342",
-    icon: CalendarCheck2,
-    position: "top-1/2 -translate-y-1/2 right-4 sm:right-8",
-    delay: "0.4s",
-  },
-  {
-    label: "Maintenance Requests",
-    value: "18",
-    icon: Wrench,
-    position: "bottom-12 left-10 sm:left-16",
-    delay: "0.8s",
-  },
-];
-
-function StatCard({ label, value, icon: Icon, position, delay }) {
-  return (
-    <div
-      className={`absolute ${position} hidden md:flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.25)] animate-[float_6s_ease-in-out_infinite]`}
-      style={{ animationDelay: delay }}
-    >
-      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500/15 text-indigo-300">
-        <Icon size={18} strokeWidth={1.75} />
-      </div>
-      <div>
-        <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
-          {label}
-        </p>
-        <p className="text-sm font-semibold text-slate-100">{value}</p>
-      </div>
-    </div>
-  );
-}
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -159,11 +117,6 @@ function Login() {
           </p>
         </div>
 
-        <div className="relative h-56">
-          {STATS.map((stat) => (
-            <StatCard key={stat.label} {...stat} />
-          ))}
-        </div>
 
         <div className="relative z-10 px-12 pb-8">
           <p className="text-xs text-slate-600">© 2026 AssetFlow</p>
@@ -172,26 +125,26 @@ function Login() {
 
       {/* Right panel — login form */}
       <div className="flex min-h-screen w-full items-center justify-center px-6 py-12 sm:px-10">
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-md lg:max-w-lg">
           {/* Logo (mobile + desktop) */}
           <div className="mb-8 flex flex-col items-center text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/5 text-base font-bold tracking-wide text-indigo-300 shadow-inner">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/5 text-base font-bold tracking-wide text-indigo-300 shadow-inner">
               AF
             </div>
-            <h2 className="mt-5 text-2xl font-semibold tracking-tight text-white">
+            <h2 className="mt-5 text-4xl font-semibold tracking-tight text-white">
               Welcome back
             </h2>
-            <p className="mt-1.5 text-sm text-slate-400">
+            <p className="mt-2.5 text-sm text-slate-400">
               Sign in to your AssetFlow workspace
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} noValidate className="space-y-5">
+          <form onSubmit={handleSubmit} noValidate className="space-y-6">
             {/* Email */}
             <div>
               <label
                 htmlFor="email"
-                className="mb-1.5 block text-sm font-medium text-slate-300"
+                className="mb-1.5 block text-xl font-medium text-slate-300"
               >
                 Email
               </label>
@@ -211,7 +164,7 @@ function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                   aria-invalid={Boolean(errors.email)}
                   aria-describedby={errors.email ? "email-error" : undefined}
-                  className={`w-full rounded-lg border bg-white/[0.03] py-2.5 pl-10 pr-3.5 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:bg-white/[0.05] focus:ring-2 ${
+                  className={`w-full rounded-lg border bg-white/[0.03] py-2.5 pl-10 pr-3.5 text-md text-slate-100 placeholder:text-slate-500 outline-none transition focus:bg-white/[0.05] focus:ring-2 ${
                     errors.email
                       ? "border-rose-500/60 focus:border-rose-500 focus:ring-rose-500/25"
                       : "border-white/10 focus:border-indigo-500 focus:ring-indigo-500/25"
@@ -230,7 +183,7 @@ function Login() {
               <div className="mb-1.5 flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium text-slate-300"
+                  className="block text-xl font-medium text-slate-300"
                 >
                   Password
                 </label>
@@ -259,7 +212,7 @@ function Login() {
                   aria-describedby={
                     errors.password ? "password-error" : undefined
                   }
-                  className={`w-full rounded-lg border bg-white/[0.03] py-2.5 pl-10 pr-10 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:bg-white/[0.05] focus:ring-2 ${
+                  className={`w-full rounded-lg border bg-white/[0.03] py-2.5 pl-10 pr-10 text-md text-slate-100 placeholder:text-slate-500 outline-none transition focus:bg-white/[0.05] focus:ring-2 ${
                     errors.password
                       ? "border-rose-500/60 focus:border-rose-500 focus:ring-rose-500/25"
                       : "border-white/10 focus:border-indigo-500 focus:ring-indigo-500/25"
@@ -301,7 +254,7 @@ function Login() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="group flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-500 py-2.5 text-sm font-semibold text-white shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset] transition hover:bg-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:cursor-not-allowed disabled:opacity-70"
+              className="group flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-500 py-3.5 text-sm font-semibold text-white shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset] transition hover:bg-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSubmitting ? (
                 <>
@@ -331,7 +284,7 @@ function Login() {
 
           <button
             type="button"
-            className="w-full rounded-lg border border-white/15 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-indigo-400/50 hover:bg-white/[0.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/40"
+            className="w-full rounded-lg border border-white/15 py-3.5 text-sm font-semibold text-slate-200 transition hover:border-indigo-400/50 hover:bg-white/[0.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/40"
           >
             Create account
           </button>
