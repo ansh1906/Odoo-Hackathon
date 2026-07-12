@@ -3,15 +3,17 @@ import { AuthProvider } from "./context/AuthContext";
 import RequireAuth from "./components/RequireAuth";
 import Layout from "./components/Layout";
 import Login from "./pages/Auth/Login";
-import Dashboard from "./pages/features/Dashboard";
 import Register from "./pages/Auth/Register";
+import Dashboard from "./pages/features/Dashboard";
+import ComingSoon from "./components/ComingSoon";
 
 export default function App() {
   return (
     <AuthProvider>
+
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/signup" element={<Register />} />
 
           <Route
             element={
@@ -21,9 +23,17 @@ export default function App() {
             }
           >
             <Route path="/dashboard" element={<Dashboard />} />
-            {/* add /org-setup, /assets, /bookings etc. here as they're built */}
+            <Route path="/organization-setup" element={<ComingSoon title="Organization Setup" />} />
+            <Route path="/assets" element={<ComingSoon title="Assets" />} />
+            <Route path="/allocation-transfer" element={<ComingSoon title="Allocation & Transfer" />} />
+            <Route path="/resource-booking" element={<ComingSoon title="Resource Booking" />} />
+            <Route path="/maintenance" element={<ComingSoon title="Maintenance" />} />
+            <Route path="/audit" element={<ComingSoon title="Audit" />} />
+            <Route path="/reports" element={<ComingSoon title="Reports" />} />
+            <Route path="/notifications" element={<ComingSoon title="Notifications" />} />
           </Route>
         </Routes>
+
     </AuthProvider>
   );
 }
