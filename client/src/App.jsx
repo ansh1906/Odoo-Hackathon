@@ -13,6 +13,7 @@ import ResourceBooking from "./pages/features/ResourceBooking";
 import Audit from "./pages/features/Audit";
 import Reports from "./pages/features/Reports";
 import Notifications from "./pages/features/Notifications"; 
+import Maintenance from "./pages/features/Maintenance";
 
 
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="/assets" element={<Assets />} />
             <Route path="/allocation-transfer" element={<Allocation/>} />
             <Route path="/resource-booking" element={< ResourceBooking />} />
+            <Route path="/maintenance" element={< Maintenance />} />
             <Route path="/audit" element={<Audit />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/notifications" element={<Notifications />} />
