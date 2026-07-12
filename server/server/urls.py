@@ -11,6 +11,6 @@ urlpatterns += [
     path('account/', include('account.urls')), 
     path('asset/manage', include('asset_manager.urls')),
     path('orgstructure/', include('orgstructure.urls')),
-    path('allocateandtransfer/', include('allocationandtransfer.urls'))
-
+    path('allocateandtransfer/', include('allocationandtransfer.urls')),
+    path('booking/', include('booking.urls')),
 ]

@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'orgstructure',
     'asset_manager',
     'allocationandtransfer',
+    'booking',
 ]
 
 MIDDLEWARE = [
