@@ -9,6 +9,7 @@ import ComingSoon from "./components/ComingSoon";
 import OrganizationSetup from "./pages/features/OrganizationSetup";
 import Assets from "./pages/features/Assets";
 
+import Maintenance from "./pages/features/Maintenance";
 
 export default function App() {
   return (
@@ -16,7 +17,7 @@ export default function App() {
 
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Register />} />
+          <Route path="/register" element={<Register />} />
 
           <Route
             element={
@@ -30,13 +31,12 @@ export default function App() {
             <Route path="/assets" element={<Assets />} />
             <Route path="/allocation-transfer" element={<ComingSoon title="Allocation & Transfer" />} />
             <Route path="/resource-booking" element={<ComingSoon title="Resource Booking" />} />
-            <Route path="/maintenance" element={<ComingSoon title="Maintenance" />} />
+            <Route path="/maintenance" element={<Maintenance/>} />
             <Route path="/audit" element={<ComingSoon title="Audit" />} />
             <Route path="/reports" element={<ComingSoon title="Reports" />} />
             <Route path="/notifications" element={<ComingSoon title="Notifications" />} />
           </Route>
         </Routes>
-
     </AuthProvider>
   );
 }
