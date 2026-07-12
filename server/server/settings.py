@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'account',
+    'orgstructure',
+    # 'assets',
 ]
 
 MIDDLEWARE = [

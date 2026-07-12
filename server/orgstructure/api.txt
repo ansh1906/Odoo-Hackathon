@@ -1,0 +1,20 @@
+API Endpoints
+
+Method	Endpoint	Description
+GET	/departments/	List departments
+POST	/departments/	Create department
+PUT/PATCH	/departments/<id>/	Update department
+DELETE	/departments/<id>/	Deactivate/Delete department
+GET	/asset-categories/	List categories
+POST	/asset-categories/	Create category
+PATCH	/asset-categories/<id>/	Update category
+DELETE	/asset-categories/<id>/	Delete category
+GET	/employees/	Employee directory
+PATCH	/employees/<uuid>/	Change role, department, status
+GET	/employees/<uuid>/	Employee details
+
+With JWTAuthentication and the IsAdminRole permission, these endpoints automatically reject:
+
+* ❌ Missing/invalid access tokens (401 Unauthorized)
+* ❌ Authenticated users whose role != "admin" (403 Forbidden)
+
