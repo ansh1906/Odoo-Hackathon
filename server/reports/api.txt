@@ -1,0 +1,7 @@
+GET /api/reports/dashboard/
+GET /api/reports/asset-utilization/
+GET /api/reports/maintenance-frequency/
+GET /api/reports/due-assets/
+GET /api/reports/department-allocation/
+GET /api/reports/booking-heatmap/
+GET /api/reports/export/?type=utilization

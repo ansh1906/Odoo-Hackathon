@@ -1,0 +1,15 @@
+from notifications.models import Notification, ActivityLog
+
+Notification.objects.create(
+    recipient=employee,
+    title="Asset Assigned",
+    message="Laptop AF-0114 has been assigned to you.",
+    notification_type="ASSET_ASSIGNED",
+)
+
+ActivityLog.objects.create(
+    user=request.user,
+    action="ALLOCATE",
+    module="Assets",
+    description=f"Allocated Laptop AF-0114 to {employee.email}"
+)
