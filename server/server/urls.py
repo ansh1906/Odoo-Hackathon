@@ -9,7 +9,7 @@ urlpatterns = router.urls
 urlpatterns += [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')), 
-    # path('assets/', include('assets.urls')),
+    path('asset/manage', include('asset_manager.urls')),
     path('orgstructure/', include('orgstructure.urls')),
 
 ]

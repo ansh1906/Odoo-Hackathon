@@ -23,12 +23,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    'django_filters',
 
     'corsheaders',
 
     'account',
     'orgstructure',
-    # 'assets',
+    'asset_manager',
 ]
 
 MIDDLEWARE = [
