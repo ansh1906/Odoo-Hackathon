@@ -116,7 +116,7 @@ export default function Audit() {
   };
 
   return (
-    <div className="min-h-full bg-slate-950 px-6 py-8 text-slate-100 sm:px-10 lg:px-12 lg:py-10">
+    <div className="app-page min-h-full bg-white px-6 py-8 text-slate-100 dark:bg-gray-900 sm:px-10 lg:px-12 lg:py-10">
       {/* Header */}
       <div className="mb-1 flex items-center gap-1.5 text-xs font-medium text-slate-500">
         <span>Audit</span>

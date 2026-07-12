@@ -169,7 +169,7 @@ function ListSection({ title, items }) {
 
 export default function Reports() {
   return (
-    <div className="flex-1 bg-slate-950 px-6 py-8 text-slate-100 sm:px-10 lg:px-12 lg:py-10">
+    <div className="app-page flex-1 bg-white px-6 py-8 text-slate-100 dark:bg-gray-900 sm:px-10 lg:px-12 lg:py-10">
       {/* Header */}
       <div className="mb-1 flex items-center gap-1.5 text-xs font-medium text-slate-500">
         <span>Reports</span>

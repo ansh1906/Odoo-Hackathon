@@ -64,7 +64,7 @@ export default function Notifications() {
       : NOTIFICATIONS.filter((n) => n.category === activeFilter);
 
   return (
-    <div className="flex-1 bg-slate-950 px-6 py-8 text-slate-100 sm:px-10 lg:px-12 lg:py-10">
+    <div className="app-page flex-1 bg-white px-8 py-10 text-slate-100 dark:bg-gray-900 sm:px-12 lg:px-14 lg:py-12">
       {/* Header */}
       <div className="mb-1 flex items-center gap-1.5 text-xs font-medium text-slate-500">
         <span>Notifications</span>
@@ -72,24 +72,24 @@ export default function Notifications() {
         <span className="text-slate-300">All activity</span>
       </div>
 
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight text-white">
+      <div className="mb-10">
+        <h1 className="text-3xl font-semibold tracking-tight text-white">
           Activity logs &amp; notifications
         </h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <p className="mt-2 text-base text-slate-400">
           Stay on top of assignments, approvals, bookings, and system alerts.
         </p>
       </div>
 
-      <div className="max-w-4xl">
+      <div className="max-w-5xl">
         {/* Filters */}
-        <div className="mb-5 flex flex-wrap items-center gap-2.5">
+        <div className="mb-6 flex flex-wrap items-center gap-3">
           {FILTERS.map((filter) => (
             <button
               key={filter}
               type="button"
               onClick={() => setActiveFilter(filter)}
-              className={`rounded-lg border px-4 py-1.5 text-sm font-medium transition ${
+              className={`rounded-lg border px-5 py-2.5 text-base font-medium transition ${
                 activeFilter === filter
                   ? "border-indigo-400/40 bg-indigo-500 text-white shadow-sm"
                   : "border-white/10 bg-white/[0.03] text-slate-400 hover:border-white/20 hover:text-slate-200"
@@ -107,15 +107,15 @@ export default function Notifications() {
               {filtered.map((item) => (
                 <li
                   key={item.id}
-                  className="flex items-center gap-3.5 px-6 py-4 transition hover:bg-white/[0.03]"
+                  className="flex items-center gap-4 px-7 py-5 transition hover:bg-white/[0.03]"
                 >
                   <span
                     className={`h-2 w-2 shrink-0 rounded-full ${TONE_DOT[item.tone]}`}
                   />
-                  <p className="min-w-0 flex-1 truncate text-sm text-slate-200">
+                  <p className="min-w-0 flex-1 truncate text-base text-slate-200">
                     {item.message}
                   </p>
-                  <span className="shrink-0 text-xs text-slate-500">
+                  <span className="shrink-0 text-sm text-slate-500">
                     {item.time}
                   </span>
                 </li>

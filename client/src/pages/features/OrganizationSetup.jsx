@@ -71,7 +71,7 @@ export default function OrganizationSetup() {
   };
 
   return (
-    <div className="h-full min-h-full w-full bg-slate-950 text-slate-100 flex flex-col px-8 py-6">
+    <div className="app-page h-full min-h-full w-full bg-white text-slate-100 dark:bg-gray-900 flex flex-col px-8 py-6">
       {/* Header */}
       <div className="mb-1 flex items-center gap-1.5 text-xs font-medium text-slate-500">
         <span>Admin</span>

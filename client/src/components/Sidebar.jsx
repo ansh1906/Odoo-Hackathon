@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { Menu } from "lucide-react";
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -18,16 +19,19 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`h-screen bg-blue-300 dark:bg-zinc-900 text:black dark:text-white transition-all duration-300 
-        ${open ? "w-[20%]" : "w-[6%]"}`}
+      className={`my-3 ml-3 h-[calc(100%-1.5rem)] shrink-0 overflow-hidden rounded-2xl border border-blue-300/70 bg-blue-400 text-black shadow-xl shadow-blue-950/20 transition-all duration-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:shadow-black/30
+        ${open ? "w-80" : "w-12"}`}
     >
       {/* Header */}
-      <div className="p-2 flex justify-center">
+      <div className="flex justify-center p-2">
         <button
           onClick={() => setOpen(!open)}
-          className="w-full max-w-full border border-gray-500 rounded px-2 py-2 text-sm hover:bg-blue-500 dark:hover:bg-zinc-800 transition-all"
+          aria-label={open ? "Collapse sidebar" : "Expand sidebar"}
+          className={`flex w-full items-center rounded-xl border border-gray-500 py-2 transition-all hover:bg-blue-600 dark:hover:bg-zinc-800 ${
+            open ? "justify-center px-2 text-sm" : "justify-center px-0"
+          }`}
         >
-          {open ? "Hide" : "Sidebar"}
+          {open ? "Hide" : <Menu size={22} strokeWidth={2.25} />}
         </button>
       </div>
 
@@ -39,8 +43,8 @@ export default function Sidebar() {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `text-left text-xl px-6 py-3 transition-all hover:bg-blue-400 dark:hover:bg-gray-400 ${
-                  isActive ? "bg-gray-400 dark:bg-zinc-500 font-semibold" : ""
+                `mx-2 rounded-xl px-4 py-3 text-left text-xl transition-all hover:bg-blue-500 dark:hover:bg-gray-400 ${
+                  isActive ? "bg-gray-400 font-semibold dark:bg-zinc-500" : ""
                 }`
               }
             >

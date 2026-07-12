@@ -130,7 +130,7 @@ export default function Maintenance() {
   };
 
   return (
-    <div className="h-full w-full min-h-full flex-1 overflow-auto bg-gray-50 dark:bg-gray-950 px-8 py-10 text-slate-900 dark:text-slate-100 sm:px-10">
+    <div className="app-page h-full w-full min-h-full flex-1 overflow-auto bg-white dark:bg-gray-900 px-8 py-10 text-slate-900 dark:text-slate-100 sm:px-10">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>

@@ -195,7 +195,7 @@ export default function ResourceBooking() {
   const sortedBookings = [...bookings].sort((a, b) => a.startHour - b.startHour);
 
   return (
-    <div className="min-h-full bg-slate-950 px-6 py-8 text-slate-100 sm:px-8 lg:px-10">
+    <div className="app-page min-h-full bg-white px-6 py-8 text-slate-100 dark:bg-gray-900 sm:px-8 lg:px-10">
       {/* Header */}
       <div className="mb-1 flex items-center gap-1.5 text-xs font-medium text-slate-500">
         <span>Resources</span>

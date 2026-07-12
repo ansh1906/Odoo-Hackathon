@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+/* Light-theme contrast for the feature pages. Several screens were initially
+   styled as dark-only surfaces, so their pale text and translucent white
+   controls became unreadable once the shared layout moved to a light canvas. */
+@media (prefers-color-scheme: light) {
+  .app-page {
+    color: #0f172a;
+  }
+
+  .app-page [class~="text-slate-100"] { color: #0f172a; }
+  .app-page [class~="text-slate-200"] { color: #1e293b; }
+  .app-page [class~="text-slate-300"] { color: #334155; }
+  .app-page [class~="text-slate-400"] { color: #475569; }
+  .app-page [class~="text-slate-500"],
+  .app-page [class~="text-slate-600"] { color: #64748b; }
+
+  .app-page :is(h1, h2, h3).text-white { color: #0f172a; }
+  .app-page [class*="border-white/"] { border-color: #cbd5e1; }
+  .app-page [class*="bg-white/["] { background-color: #f8fafc; }
+  .app-page [class*="divide-white/"] > * + * { border-color: #e2e8f0; }
+  .app-page select option[class*="bg-slate-"] {
+    background-color: #ffffff;
+    color: #0f172a;
+  }
+}
