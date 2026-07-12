@@ -1,0 +1,22 @@
+API Summary for React
+
+Method	Endpoint	Purpose
+POST	/allocation/allocate/	Allocate asset
+GET	/allocation/	List allocations
+GET	/allocation/history/{asset_id}/	Asset allocation history
+POST	/allocation/return/{allocation_id}/	Return asset
+POST	/allocation/transfer-request/	Create transfer request
+POST	/allocation/transfer/{id}/approve/	Approve transfer
+POST	/allocation/transfer/{id}/reject/	Reject transfer
+
+Suggested enhancements
+
+To make the module more ERP-like and easier to maintain:
+
+* Use database transactions (transaction.atomic()) when allocating, returning, or approving transfers so allocation records and asset status updates always stay in sync.
+* Enforce one active allocation per asset with a conditional database constraint, e.g. a UniqueConstraint on asset where status="ACTIVE", preventing race conditions and double allocation even under concurrent requests.
+* Centralize business logic (allocate, return, approve transfer) in a services.py module instead of placing it directly in views. Views then become thin API layers, making testing and future changes much easier.
+* Add notifications and activity logs by emitting signals or calling your notification/logging service whenever an allocation, return, or transfer state changes. This integrates naturally with your future Activity Logs & Notifications screen.
+
+
+Your current implementation assumes the frontend won’t send invalid IDs or race requests. For an ERP system, it’s better to move allocate, return, and approve transfer logic into a services.py module (e.g., AllocationService.allocate_asset(), AllocationService.return_asset()). Then the views only handle authentication, permissions, serialization, and HTTP responses, while the business rules stay centralized and reusable across future APIs, scheduled jobs, or admin actions.

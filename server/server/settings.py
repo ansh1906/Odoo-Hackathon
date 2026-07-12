@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'account',
     'orgstructure',
     'asset_manager',
+    'allocationandtransfer',
 ]
 
 MIDDLEWARE = [

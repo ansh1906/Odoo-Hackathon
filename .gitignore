@@ -18,7 +18,7 @@ dist-ssr
 .idea
 .DS_Store
 db.sqlite3
-*__pycache__
+__pycache__
 *.suo
 *.ntvs*
 *.njsproj
