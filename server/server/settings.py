@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'booking',
     'maintenance',
     'asset_audit',
+    'reports',
+    
 ]
 
 MIDDLEWARE = [
