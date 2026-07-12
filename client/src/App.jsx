@@ -1,19 +1,16 @@
-import React from 'react'
-import Navbar from './components/Navbar'
-import Sidebar from './components/Sidebar'
+import { Routes, Route, Navigate } from "react-router-dom";
+
 import Login from "./pages/Auth/Login";
-import Dashboard from './pages/features/Dashboard';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Register from "./pages/Auth/Register";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard/>}/>
-      </Routes>
-    </BrowserRouter>
-  )
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+    </Routes>
+  );
 }
 
 export default App;

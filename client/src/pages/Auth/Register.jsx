@@ -1,28 +1,43 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
+  User,
   Mail,
   Lock,
   Eye,
   EyeOff,
-  Boxes,
-  CalendarCheck2,
-  Wrench,
   ArrowRight,
   Loader2,
 } from "lucide-react";
 
-function Login() {
+function Register() {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState({ email: "", password: "" });
-  const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const validate = () => {
-    const nextErrors = { email: "", password: "" };
+    const nextErrors = {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    };
+
+    if (!username.trim()) {
+      nextErrors.username = "Username is required.";
+    }
 
     if (!email.trim()) {
       nextErrors.email = "Email is required.";
@@ -36,8 +51,19 @@ function Login() {
       nextErrors.password = "Password must be at least 6 characters.";
     }
 
+    if (!confirmPassword) {
+      nextErrors.confirmPassword = "Please confirm your password.";
+    } else if (password !== confirmPassword) {
+      nextErrors.confirmPassword = "Passwords do not match.";
+    }
+
     setErrors(nextErrors);
-    return !nextErrors.email && !nextErrors.password;
+    return (
+      !nextErrors.username &&
+      !nextErrors.email &&
+      !nextErrors.password &&
+      !nextErrors.confirmPassword
+    );
   };
 
   const handleSubmit = (e) => {
@@ -118,13 +144,12 @@ function Login() {
           </p>
         </div>
 
-
         <div className="relative z-10 px-12 pb-8">
           <p className="text-xs text-slate-600">© 2026 AssetFlow</p>
         </div>
       </div>
 
-      {/* Right panel — login form */}
+      {/* Right panel — register form */}
       <div className="flex min-h-screen w-full items-center justify-center px-6 py-12 sm:px-10">
         <div className="w-full max-w-md lg:max-w-lg">
           {/* Logo (mobile + desktop) */}
@@ -133,19 +158,62 @@ function Login() {
               AF
             </div>
             <h2 className="mt-5 text-4xl font-semibold tracking-tight text-white">
-              Welcome back
+              Create your account
             </h2>
             <p className="mt-2.5 text-sm text-slate-400">
-              Sign in to your AssetFlow workspace
+              Create an AssetFlow account to continue.
             </p>
           </div>
 
           <form onSubmit={handleSubmit} noValidate className="space-y-6">
+            {/* Username */}
+            <div>
+              <label
+                htmlFor="username"
+                className="mb-1.5 block text-sm font-medium text-slate-300"
+              >
+                Username
+              </label>
+
+              <div className="relative">
+                <User
+                  size={17}
+                  strokeWidth={1.75}
+                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500"
+                />
+
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  placeholder="Choose a username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  aria-invalid={Boolean(errors.username)}
+                  aria-describedby={
+                    errors.username ? "username-error" : undefined
+                  }
+                  className={`w-full rounded-lg border bg-white/[0.03] py-2.5 pl-10 pr-3.5 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:bg-white/[0.05] focus:ring-2 ${
+                    errors.username
+                      ? "border-rose-500/60 focus:border-rose-500 focus:ring-rose-500/25"
+                      : "border-white/10 focus:border-indigo-500 focus:ring-indigo-500/25"
+                  }`}
+                />
+              </div>
+
+              {errors.username && (
+                <p id="username-error" className="mt-1.5 text-xs text-rose-400">
+                  {errors.username}
+                </p>
+              )}
+            </div>
+
             {/* Email */}
             <div>
               <label
                 htmlFor="email"
-                className="mb-1.5 block text-xl font-medium text-slate-300"
+                className="mb-1.5 block text-sm font-medium text-slate-300"
               >
                 Email
               </label>
@@ -165,7 +233,7 @@ function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                   aria-invalid={Boolean(errors.email)}
                   aria-describedby={errors.email ? "email-error" : undefined}
-                  className={`w-full rounded-lg border bg-white/[0.03] py-2.5 pl-10 pr-3.5 text-md text-slate-100 placeholder:text-slate-500 outline-none transition focus:bg-white/[0.05] focus:ring-2 ${
+                  className={`w-full rounded-lg border bg-white/[0.03] py-2.5 pl-10 pr-3.5 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:bg-white/[0.05] focus:ring-2 ${
                     errors.email
                       ? "border-rose-500/60 focus:border-rose-500 focus:ring-rose-500/25"
                       : "border-white/10 focus:border-indigo-500 focus:ring-indigo-500/25"
@@ -181,19 +249,13 @@ function Login() {
 
             {/* Password */}
             <div>
-              <div className="mb-1.5 flex items-center justify-between">
+              <div className="mb-1.5">
                 <label
                   htmlFor="password"
-                  className="block text-xl font-medium text-slate-300"
+                  className="block text-sm font-medium text-slate-300"
                 >
                   Password
                 </label>
-                <button
-                  type="button"
-                  className="text-xs font-medium text-indigo-400 transition hover:text-indigo-300"
-                >
-                  Forgot password?
-                </button>
               </div>
               <div className="relative">
                 <Lock
@@ -205,7 +267,7 @@ function Login() {
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -213,7 +275,7 @@ function Login() {
                   aria-describedby={
                     errors.password ? "password-error" : undefined
                   }
-                  className={`w-full rounded-lg border bg-white/[0.03] py-2.5 pl-10 pr-10 text-md text-slate-100 placeholder:text-slate-500 outline-none transition focus:bg-white/[0.05] focus:ring-2 ${
+                  className={`w-full rounded-lg border bg-white/[0.03] py-2.5 pl-10 pr-10 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:bg-white/[0.05] focus:ring-2 ${
                     errors.password
                       ? "border-rose-500/60 focus:border-rose-500 focus:ring-rose-500/25"
                       : "border-white/10 focus:border-indigo-500 focus:ring-indigo-500/25"
@@ -240,16 +302,65 @@ function Login() {
               )}
             </div>
 
-            {/* Remember me */}
-            <label className="flex select-none items-center gap-2.5 text-sm text-slate-400">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 rounded border-white/20 bg-white/[0.03] text-indigo-500 accent-indigo-500 outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40"
-              />
-              Remember me
-            </label>
+            {/* Confirm Password */}
+            <div>
+              <div className="mb-1.5">
+                <label
+                  htmlFor="confirm-password"
+                  className="block text-sm font-medium text-slate-300"
+                >
+                  Confirm Password
+                </label>
+              </div>
+              <div className="relative">
+                <Lock
+                  size={17}
+                  strokeWidth={1.75}
+                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500"
+                />
+                <input
+                  id="confirm-password"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  placeholder="Re-enter your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  aria-invalid={Boolean(errors.confirmPassword)}
+                  aria-describedby={
+                    errors.confirmPassword ? "confirm-password-error" : undefined
+                  }
+                  className={`w-full rounded-lg border bg-white/[0.03] py-2.5 pl-10 pr-10 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:bg-white/[0.05] focus:ring-2 ${
+                    errors.confirmPassword
+                      ? "border-rose-500/60 focus:border-rose-500 focus:ring-rose-500/25"
+                      : "border-white/10 focus:border-indigo-500 focus:ring-indigo-500/25"
+                  }`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  aria-label={
+                    showConfirmPassword ? "Hide password" : "Show password"
+                  }
+                  aria-pressed={showConfirmPassword}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 transition hover:text-slate-300 focus:outline-none focus-visible:text-indigo-400"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff size={17} strokeWidth={1.75} />
+                  ) : (
+                    <Eye size={17} strokeWidth={1.75} />
+                  )}
+                </button>
+              </div>
+              {errors.confirmPassword && (
+                <p
+                  id="confirm-password-error"
+                  className="mt-1.5 text-xs text-rose-400"
+                >
+                  {errors.confirmPassword}
+                </p>
+              )}
+            </div>
 
             {/* Submit */}
             <button
@@ -260,11 +371,11 @@ function Login() {
               {isSubmitting ? (
                 <>
                   <Loader2 size={16} className="animate-spin" />
-                  Signing in…
+                  Creating account
                 </>
               ) : (
                 <>
-                  Sign in
+                  Create Account
                   <ArrowRight
                     size={16}
                     className="transition-transform group-hover:translate-x-0.5"
@@ -278,17 +389,16 @@ function Login() {
           <div className="my-7 flex items-center gap-3">
             <span className="h-px flex-1 bg-white/10" />
             <span className="text-xs font-medium text-slate-500">
-              New here?
+              Already have an account?
             </span>
             <span className="h-px flex-1 bg-white/10" />
           </div>
 
           <button
             type="button"
-            onClick={() => navigate("/register")}
-            className="group flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 py-3.5 text-sm font-semibold text-slate-200 shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset] transition hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+            className="w-full rounded-lg border border-white/15 py-3.5 text-sm font-semibold text-slate-200 transition hover:border-indigo-400/50 hover:bg-white/[0.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/40"
           >
-            Create Account
+            Sign In
           </button>
 
           <p className="mt-3 text-center text-xs text-slate-500">
@@ -304,4 +414,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
