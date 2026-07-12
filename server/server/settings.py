@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'maintenance',
     'asset_audit',
     'reports',
-    
+    'notifications',
+
 ]
 
 MIDDLEWARE = [

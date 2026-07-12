@@ -16,5 +16,6 @@ urlpatterns += [
     path('maintenance/', include('maintenance.urls')),
     path('audit/', include('asset_audit.urls')),
     path('report/', include('reports.urls')),
+    path('notifications/', include('notifications.urls')),
 
 ]
