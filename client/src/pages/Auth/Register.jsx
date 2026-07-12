@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import {
   User,
   Mail,
@@ -10,6 +12,9 @@ import {
 } from "lucide-react";
 
 function Register() {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+  const [apiError, setApiError] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -66,13 +71,24 @@ function Register() {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setApiError("");
     if (!validate()) return;
 
     setIsSubmitting(true);
-    // UI-only placeholder for a submit action.
-    window.setTimeout(() => setIsSubmitting(false), 1600);
+    try {
+      await register(username, email, password);
+      navigate("/dashboard");
+    } catch (err) {
+      const data = err.response?.data;
+      const messages = [];
+      if (data?.username) messages.push(data.username[0]);
+      if (data?.email) messages.push(data.email[0]);
+      setApiError(messages.join(" or "));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -165,6 +181,11 @@ function Register() {
             </p>
           </div>
 
+          {apiError && (
+            <div className="mb-5 rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-300">
+              {apiError}
+            </div>
+          )}
           <form onSubmit={handleSubmit} noValidate className="space-y-6">
             {/* Username */}
             <div>
@@ -396,6 +417,7 @@ function Register() {
 
           <button
             type="button"
+            onClick={() => navigate('/login')}
             className="w-full rounded-lg border border-white/15 py-3.5 text-sm font-semibold text-slate-200 transition hover:border-indigo-400/50 hover:bg-white/[0.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/40"
           >
             Sign In

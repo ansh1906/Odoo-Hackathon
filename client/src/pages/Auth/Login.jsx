@@ -11,15 +11,19 @@ import {
   ArrowRight,
   Loader2,
 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
 function Login() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
-  const navigate = useNavigate();
+  const [apiError, setApiError] = useState("");
 
   const validate = () => {
     const nextErrors = { email: "", password: "" };
@@ -40,13 +44,24 @@ function Login() {
     return !nextErrors.email && !nextErrors.password;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setApiError("");
     if (!validate()) return;
 
     setIsSubmitting(true);
-    // UI-only placeholder for a submit action.
-    window.setTimeout(() => setIsSubmitting(false), 1600);
+    try {
+      await login(email, password);
+      navigate("/dashboard");
+    } catch (err) {
+      const message =
+        err.response?.data?.error ||
+        err.response?.data?.detail ||
+        "Invalid email or password. Please try again.";
+      setApiError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -139,6 +154,15 @@ function Login() {
               Sign in to your AssetFlow workspace
             </p>
           </div>
+
+          {apiError && (
+            <div
+              role="alert"
+              className="mb-5 rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-300"
+            >
+              {apiError}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} noValidate className="space-y-6">
             {/* Email */}
