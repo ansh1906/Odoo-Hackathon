@@ -80,7 +80,7 @@ export default function Assets() {
   const [search, setSearch] = useState("");
 
   return (
-    <div className="flex-1 bg-slate-950 text-slate-100">
+    <div className="h-full min-h-full w-full bg-slate-950 text-slate-100 flex flex-col px-8 py-6">
       {/* Header */}
       <div className="mb-1 flex items-center gap-1.5 text-xs font-medium text-slate-500">
         <span>Assets</span>
@@ -89,10 +89,10 @@ export default function Assets() {
       </div>
 
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight text-white">
+        <h1 className="text-3xl font-semibold tracking-tight text-white">
           Asset registrations &amp; directory
         </h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <p className="mt-2 text-base text-slate-400">
           Search, filter, and manage every registered asset in your
           organization.
         </p>
@@ -111,13 +111,13 @@ export default function Assets() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by tag, serial, or QR code…"
-            className="w-full rounded-lg border border-white/10 bg-white/[0.03] py-2.5 pl-10 pr-3.5 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-indigo-500 focus:bg-white/[0.05] focus:ring-2 focus:ring-indigo-500/25"
+            className="w-full rounded-lg border border-white/10 bg-white/[0.03] py-2.5 pl-10 pr-3.5 text-base text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-indigo-500 focus:bg-white/[0.05] focus:ring-2 focus:ring-indigo-500/25"
           />
         </div>
 
         <button
           type="button"
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset] transition hover:bg-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-indigo-500 px-5 py-3 text-base font-semibold text-white shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset] transition hover:bg-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
         >
           <Plus size={16} strokeWidth={2} />
           Register Asset
@@ -132,11 +132,11 @@ export default function Assets() {
       </div>
 
       {/* Table card */}
-      <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.03]">
+      <div className="flex-1 overflow-auto rounded-xl border border-white/10 bg-white/[0.03]">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
+          <table className="w-full text-left text-base">
             <thead>
-              <tr className="border-b border-white/10 text-xs uppercase tracking-wide text-slate-500">
+              <tr className="border-b border-white/10 bg-white/[0.03] text-sm uppercase tracking-wide text-slate-400">
                 <th className="px-6 py-3.5 font-medium">Tag</th>
                 <th className="px-6 py-3.5 font-medium">Name</th>
                 <th className="px-6 py-3.5 font-medium">Category</th>
@@ -147,10 +147,10 @@ export default function Assets() {
             <tbody className="divide-y divide-white/5">
               {ASSETS.map((asset) => (
                 <tr key={asset.id} className="transition hover:bg-white/[0.03]">
-                  <td className="px-6 py-4 font-mono text-xs text-slate-400">
+                  <td className="px-6 py-5 font-mono text-xs text-slate-400">
                     {asset.tag}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-5">
                     <div className="flex items-center gap-2.5 font-medium text-slate-100">
                       <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-slate-400">
                         <asset.icon size={15} strokeWidth={1.75} />
@@ -158,13 +158,13 @@ export default function Assets() {
                       {asset.name}
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-slate-300">
+                  <td className="px-6 py-5 text-slate-300">
                     {asset.category}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-5">
                     <StatusBadge status={asset.status} />
                   </td>
-                  <td className="px-6 py-4 text-slate-400">
+                  <td className="px-6 py-5 text-slate-400">
                     {asset.location}
                   </td>
                 </tr>
